@@ -26,8 +26,8 @@ ENV JAVA_OPTS="-Xms256m -Xmx512m"
 # Use PORT env variable provided by Render; fallback to 1881
 ENV PORT=1881
 
-# Healthcheck (optional) — simple curl to the root
+# Healthcheck (optional) — prefer root endpoint so actuator isn't required
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
-  CMD wget -qO- http://localhost:${PORT:-1881}/actuator/health || exit 1
+  CMD wget -qO- http://localhost:${PORT:-1881}/ || exit 1
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=${PORT} -jar /app/app.jar"]

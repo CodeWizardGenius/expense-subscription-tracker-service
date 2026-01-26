@@ -1,7 +1,10 @@
 package org.siliconmade.expenstracker.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +15,20 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Supabase Spring Boot API")
+                        .title("Expense Tracker API")
                         .version("1.0")
-                        .description("Bu API Supabase entegrasyonunu test etmek için hazırlanmıştır."));
+                        .description("Supabase Auth Testi"))
+                // 1. Ayar: Token giriş kutusunu tanımla
+                .components(new Components()
+                        .addSecuritySchemes("bearer-jwt",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                                        .in(SecurityScheme.In.HEADER)
+                                        .name("Authorization")
+                        ))
+                // 2. Ayar: Tüm API'lerde bu güvenliği zorunlu kıl
+                .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"));
     }
 }
