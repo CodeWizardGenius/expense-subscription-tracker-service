@@ -1,0 +1,11 @@
+target
+.git
+.mvn
+.gitignore
+Dockerfile
+README.md
+.idea
+*.iml
+**/node_modules
+**/dist
+**/.DS_Store
