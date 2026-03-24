@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'jdk17'
-    }
-
     environment {
         MAVEN_OPTS = '-Xms256m -Xmx512m'
     }
@@ -16,6 +12,14 @@ pipeline {
     }
 
     stages {
+        stage('Verify Tools') {
+            steps {
+                sh 'java -version'
+                sh 'chmod +x mvnw'
+                sh './mvnw -version'
+            }
+        }
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -24,7 +28,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'chmod +x mvnw'
                 sh './mvnw -B -DskipTests clean package'
             }
         }
